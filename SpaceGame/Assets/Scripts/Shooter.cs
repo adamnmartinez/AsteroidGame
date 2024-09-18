@@ -21,7 +21,7 @@ public class Shooter : MonoBehaviour
     {
         if (!onCooldown && !gameObject.GetComponent<PlayerMovement>().IsBoosting && !stopped)
         {
-            GameObject bulletObject = Instantiate(bulletPrefab, gameObject.transform.localPosition, Quaternion.identity, gameObject.transform);
+            GameObject bulletObject = Instantiate(bulletPrefab, gameObject.transform.localPosition, Quaternion.identity);
             bulletObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, bulletSpeed);
             bulletObject.transform.localEulerAngles = new Vector3(0, 0, 90);
             StartCoroutine(StartCooldown());

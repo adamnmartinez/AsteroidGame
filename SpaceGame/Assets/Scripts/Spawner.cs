@@ -1,27 +1,55 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    // Asteroid Spawner Script
     public GameObject spawnObject;
     public GameObject scoreTextMesh;
     public GameObject difficultyTextMesh;
 
     public float xRange = 5f;
     public float yRange = 5f;
-    public float cooldownTime = 1.5f;
+    public float cooldownTime, startingCooldown = 1.2f;
     public int points;
     public int difficultyScore = 0;
 
-
+    private List<GameObject> ActiveAsteroids;
     private bool onCooldown = false;
+
+    void Awake()
+    {
+        ActiveAsteroids = new List<GameObject>();
+    }
+
+    void Update()
+    {
+        // Update UI with points and difficulty rating.
+        scoreTextMesh.GetComponent<TMP_Text>().text = points.ToString();
+        difficultyTextMesh.GetComponent<TMP_Text>().text = difficultyScore.ToString();
+
+        if (!onCooldown)
+        {
+            Spawn();
+            StartCoroutine(SpawnCooldown());
+        }
+    }
 
     private IEnumerator SpawnCooldown()
     {
         onCooldown = true;
         yield return new WaitForSeconds(cooldownTime);
         onCooldown = false;
+    }
+
+    public void DestroyActiveAsteroids()
+    {
+        for (int i = 0; i < ActiveAsteroids.Count; i++)
+        {
+            if(ActiveAsteroids[i]) Destroy(ActiveAsteroids[i]);
+        }
     }
 
     public void SetSpeed(float newTime)
@@ -63,6 +91,9 @@ public class Spawner : MonoBehaviour
             0
         ), Quaternion.identity, gameObject.transform);
 
+        // Add Asteroid to active asteroids
+        ActiveAsteroids.Add(asteroidObject);
+
         // Link spawner to asteroid for points counter and acceleration behavior
         asteroidObject.GetComponent<Asteroid>().spawner = gameObject.GetComponent<Spawner>();
         asteroidObject.GetComponent<Rigidbody2D>().rotation = 3f;
@@ -70,18 +101,5 @@ public class Spawner : MonoBehaviour
         // Set asteroid tradjectory
         Rigidbody2D arb = asteroidObject.GetComponent<Rigidbody2D>();
         arb.velocity = new Vector2(Random.Range(-0.7f, 0.7f), -1);
-    }
-
-    void Update()
-    {
-        // Update UI with points and difficulty rating.
-        scoreTextMesh.GetComponent<TMP_Text>().text = points.ToString();
-        difficultyTextMesh.GetComponent<TMP_Text>().text = difficultyScore.ToString();
-
-        if (!onCooldown)
-        {
-            Spawn();
-            StartCoroutine(SpawnCooldown());
-        }
     }
 }

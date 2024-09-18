@@ -23,6 +23,16 @@ public class LifeTally : MonoBehaviour
         }
     }
 
+    public void ResetTally()
+    {
+        tokenStack = new Stack<GameObject>();
+        tokenPos = gameObject.transform.localPosition;
+        for (int i = 0; i < planet.health; i++)
+        {
+            AddToken();
+        }
+    }
+
     public void AddToken()
     {
         tokenStack.Push(Instantiate(token, tokenPos, Quaternion.identity, gameObject.transform));

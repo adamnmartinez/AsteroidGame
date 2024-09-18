@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float duration = 3f;
+    private float duration = 3f;
+    
     public Spawner spawner;
     public GameObject playerObject;
 
