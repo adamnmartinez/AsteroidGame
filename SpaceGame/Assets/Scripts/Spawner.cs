@@ -10,11 +10,15 @@ public class Spawner : MonoBehaviour
     public GameObject scoreTextMesh;
     public GameObject difficultyTextMesh;
 
+    public PlayerUpgradeController puc;
+
+    // Spawner Stats and Score Tracker Variables
     public float xRange = 5f;
     public float yRange = 5f;
     public float cooldownTime, startingCooldown = 1.2f;
     public int points;
     public int difficultyScore = 0;
+    public bool stopped = false;
 
     private List<GameObject> ActiveAsteroids;
     private bool onCooldown = false;
@@ -30,7 +34,8 @@ public class Spawner : MonoBehaviour
         scoreTextMesh.GetComponent<TMP_Text>().text = points.ToString();
         difficultyTextMesh.GetComponent<TMP_Text>().text = difficultyScore.ToString();
 
-        if (!onCooldown)
+        // Spawn an asteroid if spawner isn't on cooldown and isn't disabled.
+        if (!onCooldown && !stopped)
         {
             Spawn();
             StartCoroutine(SpawnCooldown());
@@ -67,14 +72,17 @@ public class Spawner : MonoBehaviour
             case 25:
             case 50:
             case 100:
+            case 150:
             case 200:
-            case 300:
-            case 400:
+            case 250:
             case 500:
+            case 750:
             case 1000:
-            case 1500:
+                // Increase Visual Difficulty Score and Increase Asteroid Spawn Rate
                 difficultyScore += 1;
                 cooldownTime -= 0.1f;
+                // Initiate Player Upgrade
+                puc.InitiateUpgrade();
                 break;
             default:
                 break;
@@ -100,6 +108,14 @@ public class Spawner : MonoBehaviour
 
         // Set asteroid tradjectory
         Rigidbody2D arb = asteroidObject.GetComponent<Rigidbody2D>();
-        arb.velocity = new Vector2(Random.Range(-0.7f, 0.7f), -1);
+        if (asteroidObject.transform.localPosition.x > 0)
+        {
+            arb.velocity = new Vector2(Random.Range(-0.7f, 0f), -1);
+        } 
+        else 
+        {
+            arb.velocity = new Vector2(Random.Range(0f, 0.7f), -1);
+        }
+        
     }
 }

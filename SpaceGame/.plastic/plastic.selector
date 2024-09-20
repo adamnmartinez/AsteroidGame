@@ -1,4 +1,0 @@
-repository "Florida@Akaymati@cloud"
-  path "/"
-    br "/main"
-    co "/main"

@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
 
-
     [SerializeField] private bool _isFacingRight = false;
+
     public bool IsFacingRight
     {
         get

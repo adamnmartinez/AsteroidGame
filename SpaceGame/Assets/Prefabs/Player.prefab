@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9212868449599101215}
   - component: {fileID: 5317385997635016922}
   - component: {fileID: 2423009826945543670}
+  - component: {fileID: 8354055322078796723}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_Size: {x: 0.2, y: 0.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &6724641049329482943
@@ -173,7 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  boostSpeed: 8
+  boostSpeed: 9
+  _isFacingRight: 0
 --- !u!114 &2423009826945543670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,5 +189,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3175713916972804533, guid: ed77b5cd35e633f4db635fa4f795c90c, type: 3}
-  bulletSpeed: 8
-  cooldownTime: 0.2
+  bulletSpeed: 20
+  cooldownTime: 0.8
+  stopped: 0
+--- !u!114 &8354055322078796723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727341037260908329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91266dcd9cc464846844f1bceb8dcd2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sp: {fileID: 0}
+  sh: {fileID: 2423009826945543670}
+  upgradeUI: {fileID: 0}
