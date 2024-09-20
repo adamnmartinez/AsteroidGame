@@ -14,6 +14,7 @@ public class PlayerUpgradeController : MonoBehaviour
     private int upIdx1, upIdx2;
     private Upgrade up1, up2;
     public List<Upgrade> AvailableUpgrades;
+    public List<Upgrade> InstalledUpgrades;
     public delegate void UpgradeCallback(string id);
     public UpgradeCallback upRef;
 
@@ -41,16 +42,30 @@ public class PlayerUpgradeController : MonoBehaviour
             }
         }
     }
+
+    // On Awake, initalize standard upgrades.
+    void Awake()
+    {
+        upRef = installCallback;
+        InstalledUpgrades = new List<Upgrade>();
+        AvailableUpgrades = new List<Upgrade> {
+            new Upgrade("Lightning Reload", "fireRate1", upRef),
+            new Upgrade("Twin Cannons", "dualBlaster", upRef),
+            new Upgrade("Quantum Fuel", "speedBoost", upRef),
+            new Upgrade("Run and Gun Protocol", "runGun", upRef),
+        };
+    }
     
     public void installCallback(string id)
     {
+        // Matches Upgrade ID to effect.
         switch(id)
         {
-            case "fireRate":
+            case "fireRate1":
                 sh.cooldownTime -= 0.3f;
                 break;
             case "fireRate2":
-                sh.cooldownTime -= 0.4f;
+                sh.cooldownTime -= 0.3f;
                 break;
             case "dualBlaster":
                 sh.dualUpgrade = true;
@@ -73,10 +88,41 @@ public class PlayerUpgradeController : MonoBehaviour
         }
     }
 
-    // On Awake, initalize standard upgrades.
-    void Awake()
+    public void ResetUpgrades()
     {
-        upRef = installCallback;
+        for (int i = 0; i < InstalledUpgrades.Count; i++)
+        {
+            // Undoes every effect of each upgrade.
+            switch(InstalledUpgrades[i].ID)
+            {
+                case "fireRate1":
+                    sh.cooldownTime += 0.3f;
+                    break;
+                case "fireRate2":
+                    sh.cooldownTime += 0.3f;
+                    break;
+                case "dualBlaster":
+                    sh.dualUpgrade = false;
+                    break;
+                case "speedBoost":
+                    pm.moveSpeed -= 3f;
+                    pm.boostSpeed -= 3f;
+                    break;
+                case "runGun":
+                    sh.runGun = false;
+                    sh.cooldownTime += 0.2f;
+                    break;
+                case "tripleBlaster":
+                    sh.tripleUpgrade = false;
+                    break;
+                case "null":
+                    break;
+                default:
+                    break; 
+            }
+        }
+
+        InstalledUpgrades.Clear();
         AvailableUpgrades = new List<Upgrade> {
             new Upgrade("Lightning Reload", "fireRate1", upRef),
             new Upgrade("Twin Cannons", "dualBlaster", upRef),
@@ -164,12 +210,10 @@ public class PlayerUpgradeController : MonoBehaviour
 
     public void CloseUpgrade()
     {
-        // Remove installed upgrades from list.
-        if (!up1.Installed) {AvailableUpgrades.Add(up1);} else {UnlockUpgrades(up1.ID);}
-        if (!up2.Installed) {AvailableUpgrades.Add(up2);} else {UnlockUpgrades(up2.ID);}
+        // Remove installed upgrades from list, add installed upgrades to installed list, and unlock any advanced upgrades.
+        if (!up1.Installed) {AvailableUpgrades.Add(up1);} else {UnlockUpgrades(up1.ID); InstalledUpgrades.Add(up1);}
+        if (!up2.Installed) {AvailableUpgrades.Add(up2);} else {UnlockUpgrades(up2.ID); InstalledUpgrades.Add(up1);}
 
-        Debug.Log("Remaining Upgrades: " + AvailableUpgrades.Count.ToString());
-        
         // Remove old listeners
         choice1.onClick.RemoveAllListeners();
         choice2.onClick.RemoveAllListeners();

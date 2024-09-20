@@ -9,6 +9,7 @@ public class PlanetHitbox : MonoBehaviour
     public Shooter sh;
     public Spawner sp;
     public LifeTally tally;
+    public PlayerUpgradeController puc;
     public int startHP, health = 3;
    
     public bool isDead = false;
@@ -32,6 +33,9 @@ public class PlanetHitbox : MonoBehaviour
             // Reset Planet HP
             health = startHP;
             tally.ResetTally();
+
+            // Reset Upgrades
+            puc.ResetUpgrades();
         }
     }
 

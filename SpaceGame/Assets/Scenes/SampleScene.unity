@@ -997,6 +997,7 @@ MonoBehaviour:
   sh: {fileID: 1338221324}
   sp: {fileID: 1215176264}
   tally: {fileID: 1081098110}
+  puc: {fileID: 1338221335}
   startHP: 3
   health: 3
   isDead: 0
@@ -1844,6 +1845,14 @@ PrefabInstance:
     - target: {fileID: 2423009826945543670, guid: 3d687f9b62300ef4785443a5dd5dbe52, type: 3}
       propertyPath: cooldownTime
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317385997635016922, guid: 3d687f9b62300ef4785443a5dd5dbe52, type: 3}
+      propertyPath: moveSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317385997635016922, guid: 3d687f9b62300ef4785443a5dd5dbe52, type: 3}
+      propertyPath: boostSpeed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5761368190631545187, guid: 3d687f9b62300ef4785443a5dd5dbe52, type: 3}
       propertyPath: m_LocalScale.x
