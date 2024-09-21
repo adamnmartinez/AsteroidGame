@@ -7,7 +7,8 @@ public class PlanetHitbox : MonoBehaviour
     // Controls player health and restarting game scene.
     public PlayerMovement pm;
     public Shooter sh;
-    public Spawner sp;
+    public SpawnerController spawners;
+    public Points p;
     public LifeTally tally;
     public PlayerUpgradeController puc;
     public int startHP, health = 3;
@@ -21,11 +22,12 @@ public class PlanetHitbox : MonoBehaviour
         {
             isDead = false;
 
-            // Reset Spawner and Points
-            sp.points = 0;
-            sp.difficultyScore = 0;
-            sp.DestroyActiveAsteroids();
-            sp.SetSpeed(sp.startingCooldown);
+            // Reset Difficult and Points
+            p.points = 0;
+            p.difficultyScore = 0;
+
+            // Reset Spawners
+            spawners.Reset();
 
             // Reset Shooter
             sh.stopped = false;

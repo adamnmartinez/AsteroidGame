@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7836496347990853686}
   - component: {fileID: 6724641049329482943}
   - component: {fileID: 9212868449599101215}
+  - component: {fileID: 8132382946094926153}
   - component: {fileID: 5317385997635016922}
   - component: {fileID: 2423009826945543670}
   - component: {fileID: 8354055322078796723}
@@ -78,15 +79,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8b0524cf21cf3cc4ebb4101c8d2c20a8, type: 3}
-  m_Color: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
+  m_Sprite: {fileID: 21300000, guid: a049fd9313207374b9fbceae34474b73, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.2, y: 0.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &6724641049329482943
@@ -161,6 +162,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.40193784, y: 0.78383327}
   m_EdgeRadius: 0
+--- !u!95 &8132382946094926153
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 727341037260908329}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5b3a1ca58ade17845bad4c49f61d0dce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5317385997635016922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,8 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fca57f74fbe11418370647ef1137af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
-  boostSpeed: 9
+  moveSpeed: 2
+  boostSpeed: 4
   _isFacingRight: 0
 --- !u!114 &2423009826945543670
 MonoBehaviour:
@@ -190,8 +212,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3175713916972804533, guid: ed77b5cd35e633f4db635fa4f795c90c, type: 3}
   bulletSpeed: 20
-  cooldownTime: 0.8
+  cooldownTime: 1
   stopped: 0
+  dualUpgrade: 0
+  tripleUpgrade: 0
+  runGun: 0
 --- !u!114 &8354055322078796723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,4 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sp: {fileID: 0}
   sh: {fileID: 2423009826945543670}
-  upgradeUI: {fileID: 0}
+  pm: {fileID: 5317385997635016922}
+  isUpgrading: 0
+  choice1: {fileID: 0}
+  choice2: {fileID: 0}

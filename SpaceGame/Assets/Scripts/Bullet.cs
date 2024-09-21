@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private float duration = 3f;
+    public int damage = 1;
     
     public Spawner spawner;
     public GameObject playerObject;
@@ -18,5 +19,10 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         StartCoroutine(BulletLife());
+    }
+    
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(gameObject);
     }
 }

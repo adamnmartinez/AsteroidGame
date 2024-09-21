@@ -13,9 +13,11 @@ public class PlayerUpgradeController : MonoBehaviour
     public Button choice1, choice2;
     private int upIdx1, upIdx2;
     private Upgrade up1, up2;
-    public List<Upgrade> AvailableUpgrades;
-    public List<Upgrade> InstalledUpgrades;
-    public delegate void UpgradeCallback(string id);
+
+    private List<Upgrade> AvailableUpgrades;
+    private List<Upgrade> InstalledUpgrades;
+
+    public delegate void UpgradeCallback(string id, bool val);
     public UpgradeCallback upRef;
 
     public class Upgrade {
@@ -36,9 +38,17 @@ public class PlayerUpgradeController : MonoBehaviour
         {
             if (!Installed)
             {
-                Debug.Log("PUC: Installed " + Name);
-                callback(ID);
+                callback(ID, true);
                 Installed = true;
+            }
+        }
+
+        public void Uninstall()
+        {
+            if (Installed)
+            {
+                callback(ID, false);
+                Installed = false;
             }
         }
     }
@@ -56,33 +66,51 @@ public class PlayerUpgradeController : MonoBehaviour
         };
     }
     
-    public void installCallback(string id)
+    public void installCallback(string id, bool installing)
     {
-        // Matches Upgrade ID to effect.
+        // Matches Upgrade ID to effect. Can be set to install or uninstall provided upgrade.
+
+        // Arbitrary variables to be assigned and used when changing behaviors.
+        // Variables must be set before they are used in upgrade case.
+        float factor;
+        float factor2;
+
         switch(id)
         {
             case "fireRate1":
-                sh.cooldownTime -= 0.3f;
+                factor = 0.3f;
+                sh.cooldownTime -= installing ? factor : -factor;
                 break;
+
             case "fireRate2":
-                sh.cooldownTime -= 0.3f;
+                factor = 0.2f;
+                sh.cooldownTime -= installing ? factor : -factor;
                 break;
+
             case "dualBlaster":
-                sh.dualUpgrade = true;
+                sh.dualUpgrade = installing;
                 break;
+
             case "speedBoost":
-                pm.moveSpeed += 3f;
-                pm.boostSpeed += 3f;
+                factor = 3f;
+                factor2 = 3f;
+                pm.moveSpeed += installing ? factor : -factor;
+                pm.boostSpeed += installing ? factor2 : -factor2;
                 break;
+
             case "runGun":
-                sh.runGun = true;
-                sh.cooldownTime -= 0.2f;
+                factor = 0.2f;
+                sh.runGun = installing;
+                sh.cooldownTime -= installing ? factor : -factor;
                 break;
+
             case "tripleBlaster":
-                sh.tripleUpgrade = true;
+                sh.tripleUpgrade = installing;
                 break;
+
             case "null":
                 break;
+
             default:
                 break;
         }
@@ -92,37 +120,14 @@ public class PlayerUpgradeController : MonoBehaviour
     {
         for (int i = 0; i < InstalledUpgrades.Count; i++)
         {
-            // Undoes every effect of each upgrade.
-            switch(InstalledUpgrades[i].ID)
-            {
-                case "fireRate1":
-                    sh.cooldownTime += 0.3f;
-                    break;
-                case "fireRate2":
-                    sh.cooldownTime += 0.3f;
-                    break;
-                case "dualBlaster":
-                    sh.dualUpgrade = false;
-                    break;
-                case "speedBoost":
-                    pm.moveSpeed -= 3f;
-                    pm.boostSpeed -= 3f;
-                    break;
-                case "runGun":
-                    sh.runGun = false;
-                    sh.cooldownTime += 0.2f;
-                    break;
-                case "tripleBlaster":
-                    sh.tripleUpgrade = false;
-                    break;
-                case "null":
-                    break;
-                default:
-                    break; 
-            }
+            // Lock upgrade paths
+            UnlockUpgrades(InstalledUpgrades[i].ID);
+            // Uninstall upgrade
+            InstalledUpgrades[i].Uninstall();
         }
 
         InstalledUpgrades.Clear();
+        // Reset Available Upgrade List
         AvailableUpgrades = new List<Upgrade> {
             new Upgrade("Lightning Reload", "fireRate1", upRef),
             new Upgrade("Twin Cannons", "dualBlaster", upRef),
@@ -179,7 +184,7 @@ public class PlayerUpgradeController : MonoBehaviour
 
             AvailableUpgrades.Remove(up1);
 
-            // Make second button null.
+            // Deactivate second button.
             choice2.gameObject.SetActive(false);
         } 
         else 
@@ -212,12 +217,13 @@ public class PlayerUpgradeController : MonoBehaviour
     {
         // Remove installed upgrades from list, add installed upgrades to installed list, and unlock any advanced upgrades.
         if (!up1.Installed) {AvailableUpgrades.Add(up1);} else {UnlockUpgrades(up1.ID); InstalledUpgrades.Add(up1);}
-        if (!up2.Installed) {AvailableUpgrades.Add(up2);} else {UnlockUpgrades(up2.ID); InstalledUpgrades.Add(up1);}
+        if (!up2.Installed) {AvailableUpgrades.Add(up2);} else {UnlockUpgrades(up2.ID); InstalledUpgrades.Add(up2);}
 
         // Remove old listeners
         choice1.onClick.RemoveAllListeners();
         choice2.onClick.RemoveAllListeners();
 
+        // Reactivate second button if disabled.
         choice2.gameObject.SetActive(true);
 
         // Resume Game
