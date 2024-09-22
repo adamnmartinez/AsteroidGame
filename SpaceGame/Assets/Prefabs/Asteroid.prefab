@@ -173,4 +173,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 30
   health: 1
+  maxHealth: 1
+  damageThresh: 1
+  decimatedThresh: 1
   p: {fileID: 0}
+  sp: {fileID: 0}
+  damagedSprite: {fileID: 21300000, guid: 13539768ec95f2a4db6cb25eadc6b121, type: 3}
+  decimatedSprite: {fileID: 21300000, guid: c973f053e9328c74792abfac1276c6a5, type: 3}

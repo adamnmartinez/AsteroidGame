@@ -50,7 +50,7 @@ MonoBehaviour:
   xRange: 5
   yRange: 0.5
   yVelocity: 0.5
-  pointThreshold: 50
+  pointThreshold: 25
   cooldownTime: 6
   startingCooldown: 6
   minCooldown: 2
